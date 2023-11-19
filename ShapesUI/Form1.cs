@@ -19,7 +19,7 @@ namespace ShapesUI
             { "square", new ShapeFactory() },
             { "rhombus", new ShapeFactory() },
             { "rectangle", new ShapeFactory() },
-            { "equilateral triangle", new ShapeFactory() }
+            { "equilateraltriangle", new ShapeFactory() }
         };
 
 
