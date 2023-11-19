@@ -93,7 +93,7 @@ namespace ShapesUI
 
             foreach (var shape in shapesList)
             {
-                string info = shape.ToString();
+                string info = $"Type: {shape.Name}, Area: {shape.GetArea():F2}; Perimeter: {shape.GetPerimeter():F2}";
                 textAllocator.AppendText(info + Environment.NewLine);
             }
         }
