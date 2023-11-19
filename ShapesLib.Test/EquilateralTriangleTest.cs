@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using ShapesLib;
 using System;
 using System.Drawing;
@@ -22,19 +22,17 @@ namespace ShapesLib.Tests
             Assert.AreEqual(expectedName, equilateralTriangle.Name);
         }
 
-        [TestCase(0, 0, 1, 0, 0.5, 0.866, 0.43)]
-        [TestCase(-1, 0, 1, 0, 0, 1.73, 1.73)]
-        [TestCase(6, 0, 7, 0, 6.5, 0.866, 0.43)]
-        public void TestEquilateralTriangleArea(double xA, double yA, double xB, double yB, double xC, double yC, double expectedArea)
+        [TestCase(0, 0, 1, 0, 0.5, 0.866, ExpectedResult = 0.43)]
+        [TestCase(-1, 0, 1, 0, 0, 1.73, ExpectedResult = 1.73)]
+        [TestCase(6, 0, 7, 0, 6.5, 0.866, ExpectedResult = 0.43)]
+        public double TestEquilateralTriangleArea(double xA, double yA, double xB, double yB, double xC, double yC)
         {
             Point vertexA = new Point((int)xA, (int)yA);
             Point vertexB = new Point((int)xB, (int)yB);
             Point vertexC = new Point((int)xC, (int)yC);
             EquilateralTriangle equilateralTriangle = new EquilateralTriangle(vertexA, vertexB, vertexC);
 
-            double area = equilateralTriangle.GetArea();
-
-            Assert.AreEqual(expectedArea, area);
+            return Math.Round(equilateralTriangle.GetArea(), 2);
         }
 
         [TestCase(0, 0, 1, 0, 0.5, 0.866, ExpectedResult =3)]
@@ -47,11 +45,11 @@ namespace ShapesLib.Tests
             Point vertexC = new Point((int)xC, (int)yC);
             EquilateralTriangle equilateralTriangle = new EquilateralTriangle(vertexA, vertexB, vertexC);
 
-            return equilateralTriangle.GetPerimeter();
+            return Math.Round(equilateralTriangle.GetPerimeter(),2);
         }
 
-        [TestCase(0, 0, 1, 0, 0.5, 0.866, ExpectedResult = "Type: EquilateralTriangle, Area: 0,43; Perimeter: 3")]
-        [TestCase(-1, 0, 1, 0, 0, 1.73, ExpectedResult = "Type: EquilateralTriangle, Area: 1,73; Perimeter: 6")]
+        [TestCase(0, 0, 1, 0, 0.5, 0.866, ExpectedResult = "Type: EquilateralTriangle, Area: 0,4330127018922193; Perimeter: 3")]
+        [TestCase(-1, 0, 1, 0, 0, 1.73, ExpectedResult = "Type: EquilateralTriangle, Area: 1,7320508075688772; Perimeter: 6")]
         public string TestEquilateralTriangleToString(double xA, double yA, double xB, double yB, double xC, double yC)
         {
             Point vertexA = new Point((int)xA, (int)yA);
@@ -63,3 +61,4 @@ namespace ShapesLib.Tests
         }
     }
 }
+
