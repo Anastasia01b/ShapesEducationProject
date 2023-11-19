@@ -39,7 +39,7 @@
             this.GetDemoObject.Name = "GetDemoObject";
             this.GetDemoObject.Size = new System.Drawing.Size(341, 43);
             this.GetDemoObject.TabIndex = 0;
-            this.GetDemoObject.Text = "Get Demo";
+            this.GetDemoObject.Text = "Get Data";
             this.GetDemoObject.UseVisualStyleBackColor = true;
             this.GetDemoObject.Click += new System.EventHandler(this.GetDemoObject_Click);
             // 
