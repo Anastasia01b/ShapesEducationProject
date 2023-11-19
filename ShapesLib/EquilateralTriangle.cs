@@ -17,7 +17,7 @@ public class EquilateralTriangle :Shape
     public override double GetArea()
     {
         double sideLength = SideLengthCalculate(vertexA, vertexB);
-        return Math.Round((Math.Sqrt(3)/4) * Math.Pow(sideLength, 2),2);
+        return (Math.Sqrt(3)/4) * Math.Pow(sideLength, 2);
     }
     public override double GetPerimeter()
     {
