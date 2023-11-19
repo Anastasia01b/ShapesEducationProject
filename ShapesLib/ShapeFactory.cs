@@ -21,7 +21,7 @@ public class ShapeFactory
         factories[nameof(Square).ToLower()] = parameters => CreateSquare(parameters);
         factories[nameof(Rhombus).ToLower()] = parameters => CreateRhombus(parameters);
         factories[nameof(Rectangle).ToLower()] = parameters => CreateRectangle(parameters);
-        factories["equilateral triangle"] = parameters => CreateEquilateralTriangle(parameters);
+        factories["equilateraltriangle"] = parameters => CreateEquilateralTriangle(parameters);
     }
 
     private Shape CreateTriangle(string[] parameters)
@@ -92,16 +92,15 @@ public class ShapeFactory
         return new Square(vertexA, vertexB, vertexC, vertexD);
     }
 
-    private Shape CreateEquilateralTriangle(string[] parameters)
-    {
-        ValidateParameters(parameters, 3);
+     private Shape CreateEquilateralTriangle(string[] parameters)
+     {
+          ValidateParameters(parameters, 6);
 
-        Point vertexA = GetPoint(parameters, 0);
-        Point vertexB = GetPoint(parameters, 1); 
-        Point vertexC = GetPoint(parameters, 2);
-
-        return new Triangle(vertexA, vertexB, vertexC);
-    }
+          Point vertexA = GetPoint(parameters, 0);
+          Point vertexB = GetPoint(parameters, 2); 
+          Point vertexC = GetPoint(parameters, 4);
+          return new EquilateralTriangle(vertexA, vertexB, vertexC);
+     }
 
     private static void ValidateParameters(string[] parameters, int expectedCount)
     {
@@ -111,9 +110,17 @@ public class ShapeFactory
         }
     }
 
-    private static Point GetPoint(string[] parameters, int startIndex)
+     private static Point GetPoint(string[] parameters, int startIndex)
     {
-        return new Point(int.Parse(parameters[startIndex]), int.Parse(parameters[startIndex + 1]));
+      double x, y;
+      if (double.TryParse(parameters[startIndex], out x) && double.TryParse(parameters[startIndex + 1], out y))
+      {
+          return new Point((int)x, (int)y);
+      }
+      else
+      {
+          throw new ArgumentException("Invalid input for point coordinates.");
+      }
     }
 
     public Shape CreateShape(string typeName, string[] parameters)
