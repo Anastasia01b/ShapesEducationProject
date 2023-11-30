@@ -21,7 +21,7 @@ public class ShapeFactory
         factories[nameof(Square).ToLower()] = parameters => CreateSquare(parameters);
         factories[nameof(Rhombus).ToLower()] = parameters => CreateRhombus(parameters);
         factories[nameof(Rectangle).ToLower()] = parameters => CreateRectangle(parameters);
-        factories["equilateraltriangle"] = parameters => CreateEquilateralTriangle(parameters);
+        factories[nameof(EquilateralTriangle).ToLower()] = parameters => CreateEquilateralTriangle(parameters);
     }
 
     private Shape CreateTriangle(string[] parameters)
