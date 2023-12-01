@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System;
 using ShapesLib;
 
@@ -6,9 +6,11 @@ public class Ellipse : ShapesUnusual
 {
     private double axisSemiMajor;
     private double axisSemiMinor;
+    private Point center;
 
     public Ellipse(Point center, double axisSemiMajor, double axisSemiMinor) : base("Ellipse", center)
     {
+        this.center = center;
         this.axisSemiMajor = axisSemiMajor;
         this.axisSemiMinor = axisSemiMinor;
     }
@@ -25,3 +27,4 @@ public class Ellipse : ShapesUnusual
     }
 
 }
+
