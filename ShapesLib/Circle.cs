@@ -1,13 +1,14 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System;
 using ShapesLib;
 
 public class Circle : ShapesUnusual
 {
     private double radius;
-
+    private Point center;
     public Circle(Point center, double radius) : base("Circle", center)
     {
+        this.center = center;
         this.radius = radius;
     }
 
