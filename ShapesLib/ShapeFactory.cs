@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using ShapesLib;
@@ -23,18 +23,6 @@ public class ShapeFactory
         factories[nameof(Rectangle).ToLower()] = parameters => CreateRectangle(parameters);
         factories[nameof(EquilateralTriangle).ToLower()] = parameters => CreateEquilateralTriangle(parameters);
     }
-
-    private Shape CreateTriangle(string[] parameters)
-    {
-        ValidateParameters(parameters, 6);
-
-        Point vertexA = GetPoint(parameters, 0);
-        Point vertexB = GetPoint(parameters, 2);
-        Point vertexC = GetPoint(parameters, 4);
-
-        return new Triangle(vertexA, vertexB, vertexC);
-    }
-
     private Shape CreateCircle(string[] parameters)
     {
         ValidateParameters(parameters, 3);
@@ -44,7 +32,6 @@ public class ShapeFactory
 
         return new Circle(center, radius);
     }
-
     private Shape CreateEllipse(string[] parameters)
     {
         ValidateParameters(parameters, 4);
@@ -55,53 +42,48 @@ public class ShapeFactory
 
         return new Ellipse(center, semiMajor, semiMinor);
     }
-
-    private Shape CreateRhombus(string[] parameters)
+    private Shape CreateEquilateralTriangle(string[] parameters)
     {
-        ValidateParameters(parameters, 8);
-
-        Point vertexA = GetPoint(parameters, 0);
-        Point vertexB = GetPoint(parameters, 2);
-        Point vertexC = GetPoint(parameters, 4);
-        Point vertexD = GetPoint(parameters, 6);
-
-        return new Rhombus(vertexA, vertexB, vertexC, vertexD);
+        return TriangleCreator(parameters, (a, b, c) => new EquilateralTriangle(a, b, c));
     }
-
+    private Shape CreateTriangle(string[] parameters)
+    {
+        return TriangleCreator(parameters, (a, b, c) => new Triangle(a, b, c));
+    }
+   
     private Shape CreateRectangle(string[] parameters)
     {
-        ValidateParameters(parameters, 8);
-
-        Point vertexA = GetPoint(parameters, 0);
-        Point vertexB = GetPoint(parameters, 2);
-        Point vertexC = GetPoint(parameters, 4);
-        Point vertexD = GetPoint(parameters, 6);
-
-        return new Rectangle(vertexA, vertexB, vertexC, vertexD);
+        return QuadrengleCreator(parameters, 8, (a, b, c, d) => new Rectangle(a, b, c, d));
     }
-
     private Shape CreateSquare(string[] parameters)
     {
-        ValidateParameters(parameters, 8);
+        return QuadrengleCreator(parameters, 8, (a, b, c, d) => new Square(a, b, c, d));
+    }
+    private Shape CreateRhombus(string[] parameters)
+    {
+        return QuadrengleCreator(parameters, 8, (a, b, c, d) => new Rhombus(a, b, c, d));
+    }
+    private Shape QuadrengleCreator(string[] parameters, int expectedCount, Func<Point, Point, Point, Point, Shape> shapeCreator)
+    {
+        ValidateParameters(parameters, expectedCount);
 
         Point vertexA = GetPoint(parameters, 0);
         Point vertexB = GetPoint(parameters, 2);
         Point vertexC = GetPoint(parameters, 4);
         Point vertexD = GetPoint(parameters, 6);
 
-        return new Square(vertexA, vertexB, vertexC, vertexD);
+        return shapeCreator(vertexA, vertexB, vertexC, vertexD);
     }
+    private Shape TriangleCreator(string[] parameters, Func<Point, Point, Point, Shape> triangleCreator)
+    {
+        ValidateParameters(parameters, 6);
 
-     private Shape CreateEquilateralTriangle(string[] parameters)
-     {
-          ValidateParameters(parameters, 6);
+        Point vertexA = GetPoint(parameters, 0);
+        Point vertexB = GetPoint(parameters, 2);
+        Point vertexC = GetPoint(parameters, 4);
 
-          Point vertexA = GetPoint(parameters, 0);
-          Point vertexB = GetPoint(parameters, 2); 
-          Point vertexC = GetPoint(parameters, 4);
-          return new EquilateralTriangle(vertexA, vertexB, vertexC);
-     }
-
+        return triangleCreator(vertexA, vertexB, vertexC);
+    }
     private static void ValidateParameters(string[] parameters, int expectedCount)
     {
         if (parameters.Length != expectedCount)
@@ -109,28 +91,26 @@ public class ShapeFactory
             throw new ArgumentException($"Invalid number of parameters for creating a shape ({expectedCount} expected).");
         }
     }
-
-     private static Point GetPoint(string[] parameters, int startIndex)
+    private static Point GetPoint(string[] parameters, int startIndex)
     {
-      double x, y;
-      if (double.TryParse(parameters[startIndex], out x) && double.TryParse(parameters[startIndex + 1], out y))
-      {
-          return new Point((int)x, (int)y);
-      }
-      else
-      {
-          throw new ArgumentException("Invalid input for point coordinates.");
-      }
+        double x, y;
+        if (double.TryParse(parameters[startIndex], out x) && double.TryParse(parameters[startIndex + 1], out y))
+        {
+            return new Point((int)x, (int)y);
+        }
+        else
+        {
+            throw new ArgumentException("Invalid input for point coordinates.");
+        }
     }
-
     public Shape CreateShape(string typeName, string[] parameters)
     {
         if (factories.TryGetValue(typeName.ToLower(), out var factory))
         {
             return factory(parameters);
         }
-
         throw new ArgumentException($"Unsupported shape type: {typeName}");
     }
 }
+
 
